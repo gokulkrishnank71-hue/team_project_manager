@@ -8,6 +8,14 @@
         <p>Tasks inside {{ selected_project.name }}.</p>
     </div>
 
+    {% if messages %}
+    <div class="admin-message-list">
+        {% for message in messages %}
+        <div class="admin-message {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <div class="row g-4">
         {% for stat in task_stats %}
         <div class="col-md-3">
@@ -25,10 +33,71 @@
     <section class="module-panel mt-4">
         <div class="section-title-row">
             <div>
-                <h2>Task Actions</h2>
-                <p>Monitor task flow across this project.</p>
+                <h2>Create Task</h2>
+                <p>Create and assign a task to any member in this project.</p>
             </div>
         </div>
+
+        <form method="post" action="{% url 'company_admin_task_create' selected_project.id %}" class="admin-task-form">
+            {% csrf_token %}
+
+            <div class="admin-form-grid">
+                <div class="admin-form-group">
+                    <label>Task Title</label>
+                    <input type="text" name="title" placeholder="Enter task title" required>
+                </div>
+
+                <div class="admin-form-group">
+                    <label>Assign To</label>
+                    <select name="assigned_to">
+                        <option value="">Unassigned</option>
+                        {% for member in members %}
+                        <option value="{{ member.id }}">{{ member.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="admin-form-group">
+                    <label>Status</label>
+                    <select name="status">
+                        {% for value, label in status_choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="admin-form-group">
+                    <label>Priority</label>
+                    <select name="priority">
+                        {% for value, label in priority_choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="admin-form-group">
+                    <label>Due Date</label>
+                    <input type="date" name="due_date">
+                </div>
+            </div>
+
+            <div class="admin-form-group">
+                <label>Description</label>
+                <textarea name="description" placeholder="Describe the task"></textarea>
+            </div>
+
+            <button type="submit" class="admin-primary-btn">Create Task</button>
+        </form>
+    </section>
+
+    <section class="module-panel mt-4">
+        <div class="section-title-row">
+            <div>
+                <h2>Task Actions</h2>
+                <p>Create, assign, update, and delete project tasks.</p>
+            </div>
+        </div>
+
         <div class="row g-3">
             {% for action in task_actions %}
             <div class="col-md-4">
@@ -40,15 +109,76 @@
 
     <section class="module-panel mt-4">
         <h2>Assigned Tasks</h2>
-        <div class="staff-table">
+
+        <div class="admin-task-list">
             {% for task in tasks %}
-            <div class="staff-row">
-                <div>
-                    <h3>{{ task.title }}</h3>
-                    <p>Assigned to: {{ task.member }} | Priority: {{ task.priority }} | Due: {{ task.due }}</p>
-                </div>
-                <span class="status-pill">{{ task.status }}</span>
-            </div>
+            <article class="admin-task-card">
+                <form method="post" action="{% url 'company_admin_task_update' selected_project.id task.id %}" class="admin-task-edit-form">
+                    {% csrf_token %}
+
+                    <div class="admin-form-grid">
+                        <div class="admin-form-group">
+                            <label>Task Title</label>
+                            <input type="text" name="title" value="{{ task.title }}" required>
+                        </div>
+
+                        <div class="admin-form-group">
+                            <label>Assign To</label>
+                            <select name="assigned_to">
+                                <option value="">Unassigned</option>
+                                {% for member in members %}
+                                <option value="{{ member.id }}" {% if member.id == task.assigned_to_id %}selected{% endif %}>{{ member.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="admin-form-group">
+                            <label>Status</label>
+                            <select name="status">
+                                {% for value, label in status_choices %}
+                                <option value="{{ value }}" {% if value == task.status_value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="admin-form-group">
+                            <label>Priority</label>
+                            <select name="priority">
+                                {% for value, label in priority_choices %}
+                                <option value="{{ value }}" {% if value == task.priority_value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="admin-form-group">
+                            <label>Due Date</label>
+                            <input type="date" name="due_date" value="{{ task.due_value }}">
+                        </div>
+                    </div>
+
+                    <div class="admin-form-group">
+                        <label>Description</label>
+                        <textarea name="description">{{ task.description }}</textarea>
+                    </div>
+
+                    <div class="admin-task-footer">
+                        <div>
+                            <h3>{{ task.title }}</h3>
+                            <p>Assigned to: {{ task.member }} | Priority: {{ task.priority }} | Due: {{ task.due }}</p>
+                            <span class="status-pill">{{ task.status }}</span>
+                        </div>
+
+                        <div class="admin-task-buttons">
+                            <button type="submit" class="admin-primary-btn">Update</button>
+                        </div>
+                    </div>
+                </form>
+
+                <form method="post" action="{% url 'company_admin_task_delete' selected_project.id task.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="admin-danger-btn">Delete</button>
+                </form>
+            </article>
             {% empty %}
             <div class="empty-state">No tasks added for this project.</div>
             {% endfor %}
