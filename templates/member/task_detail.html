@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ task.title }} | Task Detail</title>
+    <link rel="stylesheet" href="{% static 'css/member.css' %}">
+</head>
+<body class="member-workspace-body">
+    <div class="member-dashboard-layout">
+        <aside class="member-sidebar">
+            <div class="member-brand">
+                <div class="member-brand-icon">👥</div>
+                <div>
+                    <h2>MyTeam Manager</h2>
+                    <p>Member Panel</p>
+                </div>
+            </div>
+
+            <div class="member-sidebar-highlight"></div>
+
+            <nav class="member-nav">
+                <a href="{% url 'member-project-detail' project.id %}" class="active">Project Detail</a>
+<a href="{% url 'member-my-tasks' project.id %}" class="active">My Tasks</a>
+<a href="{% url 'member-activity' project.id %}" class="active">Activity</a>
+<a href="{% url 'member-profile' project.id %}" class="active">Profile</a>
+
+            </nav>
+        </aside>
+
+        <main class="member-main-content">
+            <header class="member-workspace-header">
+                <div>
+                    <span class="member-page-badge">TASK DETAIL</span>
+                    <h1>{{ task.title }}</h1>
+                    <p>Review task details and update your task status.</p>
+                </div>
+                <a href="{% url 'member-my-tasks' project.id %}" class="member-back-btn">Back to Tasks</a>
+            </header>
+
+            <section class="member-panel">
+                <h2>Task Information</h2>
+
+                <div class="member-summary-grid">
+                    <div class="member-summary-card"><span>Assigned By</span><strong>{{ task.assigned_by }}</strong></div>
+                    <div class="member-summary-card"><span>Due Date</span><strong>{{ task.due_date }}</strong></div>
+                    <div class="member-summary-card"><span>Status</span><strong>{{ task.status }}</strong></div>
+                    <div class="member-summary-card"><span>Project</span><strong>{{ project.name }}</strong></div>
+                </div>
+
+                <div class="member-task-description">
+                    <span>Description</span>
+                    <p>{{ task.description }}</p>
+                </div>
+            </section>
+
+            <section class="member-panel">
+                <h2>Update Status</h2>
+
+                <form class="member-form">
+                    <div class="member-form-group">
+                        <label>Task Status</label>
+                        <select>
+                            <option {% if task.status == "To Do" %}selected{% endif %}>To Do</option>
+                            <option {% if task.status == "In Progress" %}selected{% endif %}>In Progress</option>
+                            <option {% if task.status == "Done" %}selected{% endif %}>Done</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="member-primary-btn">Update Status</button>
+                </form>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

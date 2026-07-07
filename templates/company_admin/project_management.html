@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Admin Projects</title>
+    <link rel="stylesheet" href="{% static 'css/company_admin.css' %}">
+</head>
+<body class="admin-project-list-body">
+    <div class="admin-project-list-page">
+        <header class="admin-topbar">
+            <div>
+                <span class="admin-page-badge">COMPANY ADMIN</span>
+                <h1>Projects</h1>
+                <p>Select a project to open the company admin workspace.</p>
+            </div>
+            <div class="admin-user-chip">
+                <span class="admin-user-avatar">A</span>
+                <div>
+                    <strong>{{ admin_name|default:"Company Admin" }}</strong>
+                    <small>{{ company.name|default:"Company" }}</small>
+                </div>
+            </div>
+        </header>
+
+        <section class="admin-project-grid">
+            {% for project in projects %}
+            <a href="{% url 'company_admin_project_detail' project.id %}" class="admin-project-card">
+                <div class="admin-card-head">
+                    <span class="admin-status-pill {{ project.status_class }}">{{ project.status }}</span>
+                    <span class="admin-task-count">{{ project.task_count }} Tasks</span>
+                </div>
+
+                <h2>{{ project.name }}</h2>
+                <p class="admin-team-name">{{ project.team_name }}</p>
+
+                <div class="admin-card-meta">
+                    <div>
+                        <span>Due Date</span>
+                        <strong>{{ project.due_date }}</strong>
+                    </div>
+                    <div>
+                        <span>Members</span>
+                        <strong>{{ project.member_count }}</strong>
+                    </div>
+                </div>
+
+                <div class="admin-progress-block">
+                    <div class="admin-progress-label">
+                        <span>Progress</span>
+                        <span>{{ project.progress }}%</span>
+                    </div>
+                    <div class="admin-progress-bar">
+                        <div class="admin-progress-fill" style="width: {{ project.progress }}%;"></div>
+                    </div>
+                </div>
+            </a>
+            {% empty %}
+            <div class="admin-empty-state">
+                <h3>No projects yet</h3>
+                <p>Create projects from Django admin first.</p>
+            </div>
+            {% endfor %}
+        </section>
+    </div>
+</body>
+</html>

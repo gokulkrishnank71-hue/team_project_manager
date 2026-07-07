@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | MyTeam Manager</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body class="auth-body">
+    <main class="auth-page">
+        <section class="auth-card">
+            <div class="auth-brand">
+                <div class="auth-brand-icon">👥</div>
+                <div>
+                    <h1>MyTeam Manager</h1>
+                    <p>Sign in to continue</p>
+                </div>
+            </div>
+
+            <div class="auth-divider"></div>
+
+            {% if messages %}
+                {% for message in messages %}
+                <div class="auth-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" class="auth-form">
+                {% csrf_token %}
+
+                <div class="auth-form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter username" required>
+                </div>
+
+                <div class="auth-form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required>
+                </div>
+
+                <button type="submit" class="auth-submit-btn">Login</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

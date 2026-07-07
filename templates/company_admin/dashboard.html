@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="page-header">
+        <span class="workspace-badge">Company Admin Workspace</span>
+        <h1>{{ selected_project.name }}</h1>
+        <p>{{ team_name }} | Lead: {{ lead_name }} | Progress: {{ progress }}%</p>
+    </div>
+
+    <div class="row g-4">
+        {% for stat in stats %}
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div>
+                    <p>{{ stat.label }}</p>
+                    <h2>{{ stat.value }}</h2>
+                </div>
+                <span class="icon-box {{ stat.color }}"></span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <section class="module-panel mt-4">
+        <h2>Project Summary</h2>
+        <div class="summary-grid">
+            {% for item in summary %}
+            <div class="summary-card">
+                <span>{{ item.label }}</span>
+                <strong>{{ item.value }}</strong>
+            </div>
+            {% endfor %}
+        </div>
+        <p class="project-description">{{ selected_project.description|default:"No description added." }}</p>
+    </section>
+
+    <section class="module-panel mt-4">
+        <h2>Overview Tasks</h2>
+        <div class="row g-3">
+            {% for block in blocks %}
+            <div class="col-md-4">
+                <div class="task-block">{{ block }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="module-panel mt-4">
+        <h2>Recent Tasks</h2>
+        <div class="staff-table">
+            {% for task in recent_tasks %}
+            <div class="staff-row">
+                <div>
+                    <h3>{{ task.title }}</h3>
+                    <p>Assigned to: {{ task.member }}</p>
+                </div>
+                <span class="status-pill">{{ task.status }}</span>
+            </div>
+            {% empty %}
+            <div class="empty-state">No tasks added for this project.</div>
+            {% endfor %}
+        </div>
+    </section>
+</section>
+{% endblock %}

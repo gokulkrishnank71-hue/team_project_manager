@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="page-header">
+        <span class="workspace-badge">Company Admin Workspace</span>
+        <h1>Project Status Panel</h1>
+        <p>Progress and completion status for {{ selected_project.name }}.</p>
+    </div>
+
+    <div class="row g-4">
+        {% for stat in status_stats %}
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div>
+                    <p>{{ stat.label }}</p>
+                    <h2>{{ stat.value }}</h2>
+                </div>
+                <span class="icon-box {{ stat.color }}"></span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <section class="module-panel mt-4">
+        <div class="section-title-row">
+            <div>
+                <h2>Status Actions</h2>
+                <p>Review task progress and project completion.</p>
+            </div>
+        </div>
+        <div class="row g-3">
+            {% for action in status_actions %}
+            <div class="col-md-4">
+                <div class="task-block">{{ action }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="module-panel mt-4">
+        <h2>Project Confirmation</h2>
+        <div class="staff-table">
+            {% for project in projects %}
+            <div class="staff-row">
+                <div>
+                    <h3>{{ project.name }}</h3>
+                    <p>Lead: {{ project.lead }}</p>
+                </div>
+                <span class="status-pill">{{ project.status }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</section>
+{% endblock %}

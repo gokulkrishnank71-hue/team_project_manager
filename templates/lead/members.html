@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ project.name }} | Members</title>
+    <link rel="stylesheet" href="{% static 'css/lead.css' %}">
+</head>
+<body class="lead-workspace-body">
+    <div class="lead-dashboard-layout">
+        <aside class="lead-sidebar">
+            <div class="lead-brand">
+                <div class="lead-brand-icon">👥</div>
+                <div>
+                    <h2>MyTeam Manager</h2>
+                    <p>Lead Panel</p>
+                </div>
+            </div>
+
+            <div class="lead-sidebar-highlight"></div>
+
+          <nav class="lead-nav">
+    <a href="{% url 'lead-project-workspace' project.id %}">Overview</a>
+    <a href="{% url 'lead-project-tasks' project.id %}">Tasks</a>
+    <a href="{% url 'lead-project-members' project.id %}">Members</a>
+    <a href="{% url 'lead-project-status' project.id %}">Project Status</a>
+    <a href="{% url 'lead-project-activity' project.id %}">Activity</a>
+    <a href="{% url 'lead-profile' project.id %}">Profile</a>
+</nav>
+        </aside>
+
+        <main class="lead-main-content">
+            <header class="lead-workspace-header">
+                <div>
+                    <span class="lead-page-badge">TEAM PROGRESS</span>
+                    <h1>Members</h1>
+                    <p>View assigned members, workload, and task progress for this project.</p>
+                </div>
+                <a href="{% url 'lead-assigned-projects' %}" class="lead-back-btn">Back to Projects</a>
+            </header>
+
+            <section class="lead-member-grid">
+                {% for member in members %}
+                <article class="lead-member-card">
+                    <div class="lead-member-top">
+                        <div class="lead-member-avatar">{{ member.initial }}</div>
+                        <div>
+                            <h2>{{ member.name }}</h2>
+                            <p>{{ member.job_role }}</p>
+                        </div>
+                    </div>
+
+                    <div class="lead-member-stats">
+                        <div>
+                            <span>Total</span>
+                            <strong>{{ member.total_tasks }}</strong>
+                        </div>
+                        <div>
+                            <span>Progress</span>
+                            <strong>{{ member.in_progress }}</strong>
+                        </div>
+                        <div>
+                            <span>Done</span>
+                            <strong>{{ member.completed }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="lead-progress-block">
+                        <div class="lead-progress-label">
+                            <span>Completion</span>
+                            <span>{{ member.progress }}%</span>
+                        </div>
+                        <div class="lead-progress-bar">
+                            <div class="lead-progress-fill" style="width: {{ member.progress }}%;"></div>
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </section>
+        </main>
+    </div>
+</body>
+</html>

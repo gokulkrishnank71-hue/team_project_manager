@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="page-header">
+        <span class="workspace-badge">Company Admin Workspace</span>
+        <h1>Recent Activity</h1>
+        <p>Latest updates for {{ selected_project.name }}.</p>
+    </div>
+
+    <section class="module-panel mt-4">
+        <h2>Activity Feed</h2>
+        <div class="activity-list">
+            {% for activity in activities %}
+            <div class="activity-card">
+                <span class="activity-dot"></span>
+                <div>
+                    <h3>{{ activity.title }}</h3>
+                    <p>{{ activity.text }}</p>
+                </div>
+                <span class="activity-time">{{ activity.time }}</span>
+            </div>
+            {% empty %}
+            <div class="empty-state">No activity added for this project.</div>
+            {% endfor %}
+        </div>
+    </section>
+</section>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="page-header">
+        <span class="workspace-badge">Company Admin Workspace</span>
+        <h1>Staff Management</h1>
+        <p>Project staff for {{ selected_project.name }}.</p>
+    </div>
+
+    <div class="row g-4">
+        {% for stat in staff_stats %}
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div>
+                    <p>{{ stat.label }}</p>
+                    <h2>{{ stat.value }}</h2>
+                </div>
+                <span class="icon-box {{ stat.color }}"></span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <section class="module-panel mt-4">
+        <div class="section-title-row">
+            <div>
+                <h2>Staff Actions</h2>
+                <p>Common project staff checks handled by the Company Admin.</p>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            {% for action in staff_actions %}
+            <div class="col-md-4">
+                <div class="task-block">{{ action }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="module-panel mt-4">
+        <h2>Staff List</h2>
+        <div class="staff-table">
+            {% for staff in staff_members %}
+            <div class="staff-row">
+                <div>
+                    <h3>{{ staff.name }}</h3>
+                    <p>{{ staff.role }}</p>
+                </div>
+                <span class="status-pill">{{ staff.status }}</span>
+            </div>
+            {% empty %}
+            <div class="empty-state">No staff assigned to this project.</div>
+            {% endfor %}
+        </div>
+    </section>
+</section>
+{% endblock %}

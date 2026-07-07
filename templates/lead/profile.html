@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lead Profile</title>
+    <link rel="stylesheet" href="{% static 'css/lead.css' %}">
+</head>
+<body class="lead-workspace-body">
+<div class="lead-dashboard-layout">
+    <aside class="lead-sidebar">
+        <div class="lead-brand">
+            <div class="lead-brand-icon">👥</div>
+            <div><h2>MyTeam Manager</h2><p>Lead Panel</p></div>
+        </div>
+        <div class="lead-sidebar-highlight"></div>
+        <nav class="lead-nav">
+            <a href="{% url 'lead-project-workspace' project.id %}">Overview</a>
+            <a href="{% url 'lead-project-tasks' project.id %}">Tasks</a>
+            <a href="{% url 'lead-project-members' project.id %}">Members</a>
+            <a href="{% url 'lead-project-status' project.id %}">Project Status</a>
+            <a href="{% url 'lead-project-activity' project.id %}">Activity</a>
+            <a href="{% url 'lead-profile' project.id %}" class="active">Profile</a>
+        </nav>
+    </aside>
+
+    <main class="lead-main-content">
+        <header class="lead-workspace-header">
+            <div>
+                <span class="lead-page-badge">LEAD PROFILE</span>
+                <h1>Profile</h1>
+                <p>View your lead account and role details.</p>
+            </div>
+        </header>
+
+        <section class="lead-panel">
+            <div class="lead-profile-card">
+                <div class="lead-profile-avatar">{{ lead.name|first }}</div>
+                <div>
+                    <h2>{{ lead.name }}</h2>
+                    <p>{{ lead.email }}</p>
+                </div>
+            </div>
+
+            <div class="lead-summary-grid">
+                <div class="lead-summary-card"><span>Team Role</span><strong>{{ lead.team_role }}</strong></div>
+                <div class="lead-summary-card"><span>Job Role</span><strong>{{ lead.job_role }}</strong></div>
+                <div class="lead-summary-card"><span>Company</span><strong>{{ lead.company }}</strong></div>
+                <div class="lead-summary-card"><span>Current Project</span><strong>{{ project.name }}</strong></div>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

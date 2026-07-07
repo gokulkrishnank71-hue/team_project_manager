@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Assigned Projects</title>
+    <link rel="stylesheet" href="{% static 'css/lead.css' %}">
+</head>
+<body class="lead-project-list-body">
+    <div class="lead-project-list-page">
+        <header class="lead-topbar">
+            <div>
+                <span class="lead-page-badge">LEAD WORKSPACE</span>
+                <h1>Assigned Projects</h1>
+                <p>Select a project to manage tasks, members, and progress.</p>
+            </div>
+            <div class="lead-user-chip">
+                <span class="lead-user-avatar">L</span>
+                <div>
+                    <strong>{{ lead_name|default:"Team Lead" }}</strong>
+                    <small>Project Lead</small>
+                </div>
+            </div>
+        </header>
+
+        <section class="lead-project-grid">
+            {% for project in projects %}
+            <a href="{% url 'lead-project-workspace' project.id %}" class="lead-project-card">
+                <div class="lead-card-head">
+                    <span class="lead-status-pill {{ project.status_class }}">{{ project.status }}</span>
+                    <span class="lead-task-count">{{ project.task_count }} Tasks</span>
+                </div>
+
+                <h2>{{ project.name }}</h2>
+                <p class="lead-team-name">{{ project.team_name }}</p>
+
+                <div class="lead-card-meta">
+                    <div>
+                        <span>Due Date</span>
+                        <strong>{{ project.due_date }}</strong>
+                    </div>
+                    <div>
+                        <span>Members</span>
+                        <strong>{{ project.member_count }}</strong>
+                    </div>
+                </div>
+
+                <div class="lead-progress-block">
+                    <div class="lead-progress-label">
+                        <span>Progress</span>
+                        <span>{{ project.progress }}%</span>
+                    </div>
+                    <div class="lead-progress-bar">
+                        <div class="lead-progress-fill" style="width: {{ project.progress }}%;"></div>
+                    </div>
+                </div>
+            </a>
+            {% empty %}
+            <div class="lead-empty-state">
+                <h3>No assigned projects yet</h3>
+                <p>Projects assigned to this lead will appear here.</p>
+            </div>
+            {% endfor %}
+        </section>
+    </div>
+</body>
+</html>

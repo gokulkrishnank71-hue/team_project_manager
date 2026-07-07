@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ project.name }} | Lead Workspace</title>
+    <link rel="stylesheet" href="{% static 'css/lead.css' %}">
+</head>
+<body class="lead-workspace-body">
+    <div class="lead-dashboard-layout">
+        <aside class="lead-sidebar">
+            <div class="lead-brand">
+                <div class="lead-brand-icon">👥</div>
+                <div>
+                    <h2>MyTeam Manager</h2>
+                    <p>Lead Panel</p>
+                </div>
+            </div>
+
+            <div class="lead-sidebar-highlight"></div>
+
+  <nav class="lead-nav">
+    <a href="{% url 'lead-project-workspace' project.id %}">Overview</a>
+    <a href="{% url 'lead-project-tasks' project.id %}">Tasks</a>
+    <a href="{% url 'lead-project-members' project.id %}">Members</a>
+    <a href="{% url 'lead-project-status' project.id %}">Project Status</a>
+    <a href="{% url 'lead-project-activity' project.id %}">Activity</a>
+    <a href="{% url 'lead-profile' project.id %}">Profile</a>
+</nav>
+        </aside>
+
+        <main class="lead-main-content">
+            <header class="lead-workspace-header">
+                <div>
+                    <span class="lead-page-badge">LEAD PROJECT WORKSPACE</span>
+                    <h1>{{ project.name }}</h1>
+                    <p>Manage project tasks, assign work, track progress, and update final status.</p>
+                </div>
+                <a href="{% url 'lead-assigned-projects' %}" class="lead-back-btn">Back to Projects</a>
+            </header>
+
+            <section class="lead-stats-grid">
+                <div class="lead-stat-card">
+                    <div>
+                        <h3>Total Tasks</h3>
+                        <strong>{{ project.task_count }}</strong>
+                    </div>
+                    <span class="lead-stat-color pink"></span>
+                </div>
+
+                <div class="lead-stat-card">
+                    <div>
+                        <h3>In Progress</h3>
+                        <strong>{{ project.in_progress_count }}</strong>
+                    </div>
+                    <span class="lead-stat-color orange"></span>
+                </div>
+
+                <div class="lead-stat-card">
+                    <div>
+                        <h3>Completed</h3>
+                        <strong>{{ project.completed_count }}</strong>
+                    </div>
+                    <span class="lead-stat-color blue"></span>
+                </div>
+
+                <div class="lead-stat-card">
+                    <div>
+                        <h3>Members</h3>
+                        <strong>{{ project.member_count }}</strong>
+                    </div>
+                    <span class="lead-stat-color green"></span>
+                </div>
+            </section>
+
+            <section class="lead-panel">
+                <h2>Lead Actions</h2>
+                <div class="lead-action-grid">
+                    <div class="lead-action-card">Create Task</div>
+                    <div class="lead-action-card">Assign Task to Member</div>
+                    <div class="lead-action-card">Set Due Date</div>
+                    <div class="lead-action-card">View Member Task Progress</div>
+                    <div class="lead-action-card">Mark Project as Completed</div>
+                    <div class="lead-action-card">View Recent Activity</div>
+                </div>
+            </section>
+
+            <section class="lead-panel">
+                <h2>Project Summary</h2>
+                <div class="lead-summary-grid">
+                    <div class="lead-summary-card">
+                        <span>Team Name</span>
+                        <strong>{{ project.team_name }}</strong>
+                    </div>
+                    <div class="lead-summary-card">
+                        <span>Status</span>
+                        <strong>{{ project.status }}</strong>
+                    </div>
+                    <div class="lead-summary-card">
+                        <span>Due Date</span>
+                        <strong>{{ project.due_date }}</strong>
+                    </div>
+                    <div class="lead-summary-card">
+                        <span>Progress</span>
+                        <strong>{{ project.progress }}%</strong>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
